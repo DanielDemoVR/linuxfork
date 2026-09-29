@@ -1,4 +1,4 @@
-name: ccache Benchmark
+name: ccache Benchmark (Avrea)
 
 on:
   workflow_dispatch:
@@ -16,8 +16,13 @@ jobs:
         run: |
           export PATH="/usr/lib/ccache:$PATH"
           ccache --max-size=5G
+          ccache --zero-stats
 
-      - name: Build
+      - name: Build drivers subsystem
         run: |
+          export PATH="/usr/lib/ccache:$PATH"
           make defconfig
-          time make -j$(nproc)
+          time make -j$(nproc) drivers/
+
+      - name: Show ccache stats
+        run: ccache --show-stats
