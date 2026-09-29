@@ -21,6 +21,7 @@ jobs:
       - name: Build drivers subsystem
         run: |
           export PATH="/usr/lib/ccache:$PATH"
+          echo "Available cores: $(nproc)"
           make defconfig
           time make -j$(nproc) drivers/
 
